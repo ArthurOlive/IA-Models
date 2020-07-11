@@ -125,7 +125,7 @@ void fit(perceptron * p, float ** x, float * y, int dim, int size){
                 u += p->w[i] * p->x[j][i];
             }
             
-			//Aplica a função de limiar de ativação
+			//Aplica a funï¿½ï¿½o de limiar de ativaï¿½ï¿½o
             yi = g(u);
 			
             if (yi != p->y[j]){
@@ -191,6 +191,11 @@ void printPerceptron(perceptron * p){
 }
 
 float g(float u ){
+    //Funcao inicial
+    //u >= 0 entao 1 
+    //u < 0 entao -1
+
+    
     if (u >= 0){
         return 1;
     } else {
