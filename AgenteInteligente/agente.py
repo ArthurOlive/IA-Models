@@ -64,6 +64,8 @@ def printMenu():
     print("1 - Cadastrar regras")
     print("2 - Cadastrar variaveis")
     print("3 - Predizer variavel (loop de execusão)")
+    print("4 - Listar as variaveis")
+    print("5 - Listar as regras")
     print("0 - Sair do programa")
     print("==============================")
     return int(input("Digite uma das opções acima listadas: "))
@@ -280,18 +282,25 @@ if __name__ == "__main__" :
                         continue
 
                 print("Houve algum problema com as regras")
-                
-            else:
-                #Salva os dados nos arquivos
-                with open('rules.txt', 'w') as rulesTxt: 
-                    json.dump(rulesList, rulesTxt)
-
-                with open('variables.txt', 'w') as variablesTxt: 
-                    json.dump(variablesList, variablesTxt) 
-                
-                print("Não possui regras para predição dessa variavel")
             
-
-
+        elif opcMenu == 4:
+            count = 0
+            for i in variablesList:
+                print(count, " - ", i)
+                count += 1
+        elif opcMenu == 5:
+            count = 0
+            for i in rulesList:
+                print(count, " - ", i)
+                count += 1
+        else:
+            print("Não possui regras para predição dessa variavel")
             
         opcMenu = printMenu()
+            
+    #Salva os dados nos arquivos
+    with open('rules.txt', 'w') as rulesTxt: 
+        json.dump(rulesList, rulesTxt)
+
+    with open('variables.txt', 'w') as variablesTxt: 
+        json.dump(variablesList, variablesTxt) 
