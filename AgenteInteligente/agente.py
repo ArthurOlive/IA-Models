@@ -66,6 +66,8 @@ def printMenu():
     print("3 - Predizer variavel (loop de execusão)")
     print("4 - Listar as variaveis")
     print("5 - Listar as regras")
+    print("6 - Excluir regras")
+    print("7 - Excluir variaveis")
     print("0 - Sair do programa")
     print("==============================")
     return int(input("Digite uma das opções acima listadas: "))
@@ -228,10 +230,13 @@ if __name__ == "__main__" :
                 if (list(i.keys())[-1] == predicao):
                     useRule.append(i)
             if len(useRule) != 0:
+                print(useRule)
                 rules = pd.DataFrame(useRule)
+                
                 #coloca -1 nos valores nulos
                 rules = rules.fillna(-1)
                 
+                print(rules)
                 #processa a tabela e converte para numeros
                 dict_mask = {}
                 for j in range(len(rules.columns)):
@@ -284,15 +289,35 @@ if __name__ == "__main__" :
                 print("Houve algum problema com as regras")
             
         elif opcMenu == 4:
+            print("\nMenu de listar variaveis: ")
             count = 0
             for i in variablesList:
                 print(count, " - ", i)
                 count += 1
+            print('\n')
         elif opcMenu == 5:
+            print("\nMenu de listar regras: ")
             count = 0
             for i in rulesList:
                 print(count, " - ", i)
                 count += 1
+            print('\n')
+        elif  opcMenu == 6:
+            print("\nMenu de excluir regras: ")
+            count = 0
+            for i in rulesList:
+                print(count, " - ", i)
+                count += 1
+            excRegra = int(input("Escolha uma regra para excluir"))
+            print('\n')
+            try:
+                rulesList.remove(rulesList[excRegra]) 
+                print("Regra excluida com sucesso!")
+            except: 
+                print("Ocorreu um erro ao excluir a regra")
+            
+        elif  opcMenu == 7:
+            continue
         else:
             print("Não possui regras para predição dessa variavel")
             
