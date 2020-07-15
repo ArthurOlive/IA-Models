@@ -12,8 +12,6 @@ variavel = '\033[0;0m'
 def replaceRule(rule):
     rule = rule.replace("IF ", "")
     rule = rule.replace("AND", ";")
-    rule = rule.replace(">", "=>")
-    rule = rule.replace("<", "=<")
     return rule
 
 def processRules(rulesList):
@@ -26,7 +24,7 @@ def processRules(rulesList):
             rulesBroken = compostRule[0].split("OR")
             target = compostRule[1].split("=")
             for x in range(len(rulesBroken)):
-                rulesBroken[x] = rulesBroken[x].split(";");
+                rulesBroken[x] = rulesBroken[x].split(";")
                 dictionaryRule = {}
                 for j in rulesBroken[x]:
                     j = j.split("=")
@@ -219,28 +217,31 @@ if __name__ == "__main__" :
                 
         elif opcMenu == 3:
             dictionaryRules = processRules(rulesList)
-            print("lista de variaveis do sistema: \n")
+            print("\nlista de variaveis do sistema:")
             count = 0
             for i in variablesList:
-                print("\t", count , " - " , i)
+                print('\t', i)
                 count += 1
             predicao = input("Digite o nome da variavel que deseja predizer: ")
+            print('\n')
+            
             useRule = []
             for i in dictionaryRules:
                 if (list(i.keys())[-1] == predicao):
                     useRule.append(i)
             if len(useRule) != 0:
-                print(useRule)
                 rules = pd.DataFrame(useRule)
                 
                 #coloca -1 nos valores nulos
                 rules = rules.fillna(-1)
                 
+                print("Tabela de regras:")
                 print(rules)
+                print('\n')
                 #processa a tabela e converte para numeros
                 dict_mask = {}
                 for j in range(len(rules.columns)):
-                    dict_mask[rules.columns[j]] = [{'Nenhuma das opções' : -1}]
+                    dict_mask[rules.columns[j]] = [{'Desconhecido' : -1}]
                     keys = list(rules[rules.columns[j]].value_counts().keys())
                     for i in range(len(keys)):
                         if(keys[i] != -1):
@@ -262,8 +263,10 @@ if __name__ == "__main__" :
                 values = rules.values
                 
                 rulesValues = values
+                print("===== Questionario: ====")
+                
                 for i in range(len(dict_mask) - 1):
-                    print(rules.columns[i])
+                    print("** ", rules.columns[i])
                     for j in range(len(dict_mask[rules.columns[i]])):
                         print(list(dict_mask[rules.columns[i]][j].values())[0] ,' - ', list(dict_mask[rules.columns[i]][j].keys())[0])
                     answer = int(input("Opção: "))
@@ -276,18 +279,21 @@ if __name__ == "__main__" :
                     rulesValues = filterRules
 
                     if len(rulesValues) == 0:
+                        print("========================")
                         print("Não existe um resultado definido pelas regras")
                         break
                     elif len(rulesValues) == 1 and answer != -1:
                         for x in range(len(values)):
                             if np.array_equal(values[x],rulesValues[0]):
+                                print("========================")
                                 print("Resultado: ", predicao ,  "->", list(list(dict_mask[predicao])[target[x] + 1].keys())[0])
                         break
                     else:
                         continue
 
                 print("Houve algum problema com as regras")
-            
+            else:
+                print("Não existe regras definidas para esse objetivo!\n")
         elif opcMenu == 4:
             print("\nMenu de listar variaveis: ")
             count = 0
